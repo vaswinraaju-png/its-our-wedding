@@ -570,6 +570,11 @@
             margin-bottom: 16px;
         }
 
+        .single-photo {
+            width: 100%;
+            height: 320px;
+        }
+
         .photo-grid-small {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1006,21 +1011,11 @@
                 </p>
             </div>
             
-            <!-- Photo Gallery -->
+            <!-- Photo 1: After intro -->
             <div class="photo-gallery" style="margin-top: 60px;">
-                <div class="photo-placeholder main-photo">
+                <div class="photo-placeholder single-photo">
                     <span class="photo-icon">📸</span>
-                    <p class="photo-label">Add your favorite photo together</p>
-                </div>
-                <div class="photo-grid-small">
-                    <div class="photo-placeholder small-photo">
-                        <span class="photo-icon">💑</span>
-                        <p class="photo-label">Candid moment</p>
-                    </div>
-                    <div class="photo-placeholder small-photo">
-                        <span class="photo-icon">❤️</span>
-                        <p class="photo-label">Sweet memory</p>
-                    </div>
+                    <p class="photo-label">images/couple-intro.jpg</p>
                 </div>
             </div>
             
@@ -1068,6 +1063,17 @@
             <div class="wave-divider"></div>
         </section>
 
+        <!-- Photo 2: After dates -->
+        <section id="photo-2" style="min-height: auto; padding: 40px 24px;">
+            <div class="photo-gallery">
+                <div class="photo-placeholder single-photo">
+                    <span class="photo-icon">💑</span>
+                    <p class="photo-label">images/couple-candid.jpg</p>
+                </div>
+            </div>
+            <div class="wave-divider"></div>
+        </section>
+
         <!-- Our Story -->
         <section id="story">
             <p class="section-subtitle">💫 Our Story</p>
@@ -1106,6 +1112,17 @@
                 </div>
             </div>
 
+            <div class="wave-divider"></div>
+        </section>
+
+        <!-- Photo 3: After story -->
+        <section id="photo-3" style="min-height: auto; padding: 40px 24px;">
+            <div class="photo-gallery">
+                <div class="photo-placeholder single-photo">
+                    <span class="photo-icon">✨</span>
+                    <p class="photo-label">images/couple-memory.jpg</p>
+                </div>
+            </div>
             <div class="wave-divider"></div>
         </section>
 
@@ -1151,25 +1168,13 @@
             <div class="wave-divider"></div>
         </section>
 
-        <!-- More Photos Section -->
-        <section id="photos" style="min-height: auto; padding: 60px 24px;">
-            <p class="section-subtitle">Captured Moments</p>
+        <!-- Photo 4: After venues -->
+        <section id="photo-4" style="min-height: auto; padding: 40px 24px;">
             <div class="photo-gallery">
-                <div class="photo-grid-small" style="margin-bottom: 16px;">
-                    <div class="photo-placeholder small-photo">
-                        <span class="photo-icon">🌊</span>
-                        <p class="photo-label">By the sea</p>
-                    </div>
-                    <div class="photo-placeholder small-photo">
-                        <span class="photo-icon">✨</span>
-                        <p class="photo-label">Golden hour</p>
-                    </div>
+                <div class="photo-placeholder single-photo">
+                    <span class="photo-icon">🌊</span>
+                    <p class="photo-label">images/couple-celebration.jpg</p>
                 </div>
-                <div class="photo-placeholder main-photo">
-                    <span class="photo-icon">💕</span>
-                    <p class="photo-label">Add another special moment</p>
-                </div>
-                <p class="photo-instruction">Replace these placeholders with your favorite photos</p>
             </div>
             <div class="wave-divider"></div>
         </section>
