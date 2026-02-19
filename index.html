@@ -507,6 +507,120 @@
             font-weight: 300;
         }
 
+        .venue-link {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 10px 24px;
+            border: 1px solid var(--champagne-gold);
+            border-radius: 20px;
+            color: var(--champagne-gold);
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .venue-link:hover {
+            background: var(--champagne-gold);
+            color: var(--deep-navy);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(198, 167, 94, 0.3);
+        }
+
+        /* Photo Gallery Styles */
+        .photo-gallery {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .photo-placeholder {
+            background: rgba(29, 120, 116, 0.08);
+            border: 2px dashed rgba(198, 167, 94, 0.4);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .photo-placeholder:hover {
+            border-color: var(--champagne-gold);
+            border-style: solid;
+            background: rgba(29, 120, 116, 0.12);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(198, 167, 94, 0.2);
+        }
+
+        .main-photo {
+            width: 100%;
+            height: 280px;
+            margin-bottom: 16px;
+        }
+
+        .photo-grid-small {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .small-photo {
+            height: 180px;
+        }
+
+        .photo-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.6;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .small-photo .photo-icon {
+            font-size: 36px;
+        }
+
+        .photo-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: rgba(198, 167, 94, 0.8);
+            font-weight: 400;
+            text-transform: uppercase;
+        }
+
+        .photo-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(198, 167, 94, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .photo-placeholder:hover::before {
+            left: 100%;
+        }
+
+        /* Image upload instruction */
+        .photo-instruction {
+            text-align: center;
+            margin-top: 16px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            color: rgba(248, 249, 250, 0.5);
+            font-style: italic;
+            letter-spacing: 1px;
+        }
+
         /* RSVP Section */
         .rsvp-content {
             text-align: center;
@@ -729,6 +843,25 @@
                     Join us for laughter, warm hugs, dance floors, happy tears, and a whole lot of love.
                 </p>
             </div>
+            
+            <!-- Photo Gallery -->
+            <div class="photo-gallery" style="margin-top: 60px;">
+                <div class="photo-placeholder main-photo">
+                    <span class="photo-icon">📸</span>
+                    <p class="photo-label">Add your favorite photo together</p>
+                </div>
+                <div class="photo-grid-small">
+                    <div class="photo-placeholder small-photo">
+                        <span class="photo-icon">💑</span>
+                        <p class="photo-label">Candid moment</p>
+                    </div>
+                    <div class="photo-placeholder small-photo">
+                        <span class="photo-icon">❤️</span>
+                        <p class="photo-label">Sweet memory</p>
+                    </div>
+                </div>
+            </div>
+            
             <div class="wave-divider"></div>
         </section>
 
@@ -830,6 +963,9 @@
                             Pondicherry<br>
                             March 14-15, 2026
                         </p>
+                        <a href="https://maps.app.goo.gl/UMqNEGYWhYiF1awQ8" target="_blank" rel="noopener noreferrer" class="venue-link">
+                            View on Map →
+                        </a>
                     </div>
                 </div>
 
@@ -843,10 +979,36 @@
                             Karaikal<br>
                             March 22, 2026
                         </p>
+                        <a href="https://maps.app.goo.gl/ffjzV12P861hh3Nt5" target="_blank" rel="noopener noreferrer" class="venue-link">
+                            View on Map →
+                        </a>
                     </div>
                 </div>
             </div>
 
+            <div class="wave-divider"></div>
+        </section>
+
+        <!-- More Photos Section -->
+        <section id="photos" style="min-height: auto; padding: 60px 24px;">
+            <p class="section-subtitle">Captured Moments</p>
+            <div class="photo-gallery">
+                <div class="photo-grid-small" style="margin-bottom: 16px;">
+                    <div class="photo-placeholder small-photo">
+                        <span class="photo-icon">🌊</span>
+                        <p class="photo-label">By the sea</p>
+                    </div>
+                    <div class="photo-placeholder small-photo">
+                        <span class="photo-icon">✨</span>
+                        <p class="photo-label">Golden hour</p>
+                    </div>
+                </div>
+                <div class="photo-placeholder main-photo">
+                    <span class="photo-icon">💕</span>
+                    <p class="photo-label">Add another special moment</p>
+                </div>
+                <p class="photo-instruction">Replace these placeholders with your favorite photos</p>
+            </div>
             <div class="wave-divider"></div>
         </section>
 
