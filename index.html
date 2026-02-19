@@ -549,6 +549,7 @@
             position: relative;
             overflow: hidden;
             transition: all 0.4s ease;
+            cursor: pointer;
         }
 
         .photo-placeholder:hover {
@@ -557,6 +558,10 @@
             background: rgba(29, 120, 116, 0.12);
             transform: translateY(-4px);
             box-shadow: 0 8px 24px rgba(198, 167, 94, 0.2);
+        }
+
+        .photo-placeholder:active {
+            transform: translateY(-2px) scale(0.98);
         }
 
         .main-photo {
@@ -608,6 +613,31 @@
 
         .photo-placeholder:hover::before {
             left: 100%;
+        }
+
+        /* Floating Heart Animation */
+        .floating-heart {
+            position: fixed;
+            font-size: 24px;
+            pointer-events: none;
+            z-index: 9999;
+            animation: floatUpHeart 2s ease-out forwards;
+            user-select: none;
+        }
+
+        @keyframes floatUpHeart {
+            0% {
+                transform: translateY(0) scale(0.5) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-80px) scale(1.2) rotate(15deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-150px) scale(0.8) rotate(30deg);
+                opacity: 0;
+            }
         }
 
         /* Image upload instruction */
@@ -1335,6 +1365,45 @@
         // Prevent horizontal scroll
         document.body.style.overflowX = 'hidden';
         document.documentElement.style.overflowX = 'hidden';
+
+        // Floating hearts on photo click
+        function createFloatingHeart(x, y) {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = x + 'px';
+            heart.style.top = y + 'px';
+            
+            // Add slight random variation to position
+            const randomX = (Math.random() - 0.5) * 40;
+            heart.style.transform = `translateX(${randomX}px)`;
+            
+            document.body.appendChild(heart);
+            
+            // Remove heart after animation completes
+            setTimeout(() => {
+                heart.remove();
+            }, 2000);
+        }
+
+        // Add click/touch event listeners to all photo placeholders
+        document.addEventListener('DOMContentLoaded', function() {
+            const photoPlaceholders = document.querySelectorAll('.photo-placeholder');
+            
+            photoPlaceholders.forEach(placeholder => {
+                // Handle both click (desktop) and touch (mobile) events
+                placeholder.addEventListener('click', function(e) {
+                    createFloatingHeart(e.clientX, e.clientY);
+                });
+                
+                placeholder.addEventListener('touchstart', function(e) {
+                    if (e.touches.length > 0) {
+                        const touch = e.touches[0];
+                        createFloatingHeart(touch.clientX, touch.clientY);
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
