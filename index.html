@@ -638,6 +638,13 @@
             font-weight: 300;
         }
 
+        .rsvp-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+        }
+
         .rsvp-button {
             display: inline-block;
             padding: 18px 48px;
@@ -655,6 +662,13 @@
             overflow: hidden;
             transition: all 0.4s ease;
             text-decoration: none;
+            width: 100%;
+        }
+
+        .fun-button {
+            text-transform: none;
+            font-size: 14px;
+            letter-spacing: 0.5px;
         }
 
         .rsvp-button::before {
@@ -684,6 +698,124 @@
         .rsvp-button span {
             position: relative;
             z-index: 1;
+        }
+
+        /* Popup Overlay */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 60, 93, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            padding: 20px;
+        }
+
+        .popup-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .popup-content {
+            background: linear-gradient(135deg, rgba(11, 60, 93, 0.98) 0%, rgba(29, 120, 116, 0.95) 100%);
+            border: 2px solid var(--champagne-gold);
+            border-radius: 20px;
+            padding: 48px 32px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 100px rgba(198, 167, 94, 0.3);
+            transform: scale(0.8);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-align: center;
+        }
+
+        .popup-overlay.active .popup-content {
+            transform: scale(1);
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(198, 167, 94, 0.2);
+            color: var(--champagne-gold);
+            font-size: 24px;
+            line-height: 36px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .popup-close:hover {
+            background: var(--champagne-gold);
+            color: var(--deep-navy);
+            transform: rotate(90deg);
+        }
+
+        .popup-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(10deg); }
+        }
+
+        .popup-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            color: var(--champagne-gold);
+            margin-bottom: 24px;
+            font-weight: 400;
+            line-height: 1.3;
+        }
+
+        .popup-message {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            line-height: 1.8;
+            color: rgba(248, 249, 250, 0.9);
+            margin-bottom: 32px;
+            font-weight: 300;
+        }
+
+        .popup-message p {
+            margin-bottom: 16px;
+        }
+
+        .popup-button {
+            padding: 14px 40px;
+            border: 2px solid var(--champagne-gold);
+            border-radius: 50px;
+            background: var(--champagne-gold);
+            color: var(--deep-navy);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .popup-button:hover {
+            background: transparent;
+            color: var(--champagne-gold);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(198, 167, 94, 0.4);
         }
 
         /* Footer */
@@ -1026,11 +1158,32 @@
                 <p class="rsvp-text" style="font-size: 13px; color: var(--champagne-gold);">
                     Kindly respond by March 1st, 2026
                 </p>
-                <button class="rsvp-button" onclick="handleRSVP()">
-                    <span>Confirm Attendance</span>
-                </button>
+                <div class="rsvp-buttons">
+                    <button class="rsvp-button fun-button" onclick="showConfirmation('Woohoo')">
+                        <span>Woohoo! I'm in! 🎉</span>
+                    </button>
+                    <button class="rsvp-button fun-button" onclick="showConfirmation('Yayy')">
+                        <span>Yayy! I'm in! 💃</span>
+                    </button>
+                </div>
             </div>
         </section>
+
+        <!-- RSVP Confirmation Popup -->
+        <div id="confirmationPopup" class="popup-overlay">
+            <div class="popup-content">
+                <div class="popup-close" onclick="closePopup()">×</div>
+                <div class="popup-icon">✨</div>
+                <h3 class="popup-title">The celebration just got brighter</h3>
+                <div class="popup-message">
+                    <p>You'll be there when our forever begins — and that makes it even more meaningful.</p>
+                    <p>When we look around that day and see you smiling with us, we'll know it's exactly how it was meant to be.</p>
+                    <p style="margin-top: 24px; color: var(--teal); font-weight: 500;">See you in March 2026.</p>
+                    <p style="margin-top: 16px; color: var(--champagne-gold); font-style: italic; font-size: 15px;">— Shobi & Ashwin</p>
+                </div>
+                <button class="popup-button" onclick="closePopup()">Close</button>
+            </div>
+        </div>
 
         <!-- Footer -->
         <footer class="footer">
@@ -1085,6 +1238,77 @@
         // RSVP Handler
         function handleRSVP() {
             alert('Thank you for your RSVP! In a real application, this would open an RSVP form.');
+        }
+
+        // Show confirmation popup
+        function showConfirmation(type) {
+            const popup = document.getElementById('confirmationPopup');
+            popup.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scroll
+            
+            // Add confetti effect (optional enhancement)
+            createConfetti();
+        }
+
+        // Close popup
+        function closePopup() {
+            const popup = document.getElementById('confirmationPopup');
+            popup.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Re-enable scroll
+        }
+
+        // Close popup when clicking outside
+        document.addEventListener('click', function(event) {
+            const popup = document.getElementById('confirmationPopup');
+            if (event.target === popup) {
+                closePopup();
+            }
+        });
+
+        // Close popup on ESC key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closePopup();
+            }
+        });
+
+        // Simple confetti effect
+        function createConfetti() {
+            const colors = ['#C6A75E', '#1D7874', '#F8F9FA'];
+            const confettiCount = 50;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.style.position = 'fixed';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-10px';
+                    confetti.style.width = '10px';
+                    confetti.style.height = '10px';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.opacity = '0.8';
+                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                    confetti.style.pointerEvents = 'none';
+                    confetti.style.zIndex = '10001';
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    
+                    document.body.appendChild(confetti);
+                    
+                    // Animate confetti falling
+                    const duration = 2000 + Math.random() * 1000;
+                    const drift = (Math.random() - 0.5) * 100;
+                    
+                    confetti.animate([
+                        { transform: `translateY(0) translateX(0) rotate(0deg)`, opacity: 1 },
+                        { transform: `translateY(100vh) translateX(${drift}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+                    ], {
+                        duration: duration,
+                        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                    });
+                    
+                    setTimeout(() => confetti.remove(), duration);
+                }, i * 30);
+            }
         }
 
         // Smooth scroll for internal links
