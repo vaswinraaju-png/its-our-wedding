@@ -459,32 +459,70 @@
             box-shadow: 0 12px 40px rgba(198, 167, 94, 0.15);
         }
 
-        .venue-map-placeholder {
+        /* Venue Image Placeholder */
+        .venue-image-placeholder {
             width: 100%;
-            height: 180px;
-            background: linear-gradient(135deg, var(--dark-teal) 0%, var(--deep-navy) 100%);
-            position: relative;
+            height: 200px;
+            background: rgba(29, 120, 116, 0.08);
+            border-bottom: 1px dashed rgba(198, 167, 94, 0.4);
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            position: relative;
             overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s ease;
         }
 
-        .venue-map-placeholder::before {
+        .venue-image-placeholder::before {
             content: '';
             position: absolute;
+            top: 0;
+            left: -100%;
             width: 100%;
             height: 100%;
-            background: 
-                repeating-linear-gradient(0deg, transparent, transparent 10px, rgba(198, 167, 94, 0.05) 10px, rgba(198, 167, 94, 0.05) 11px),
-                repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(198, 167, 94, 0.05) 10px, rgba(198, 167, 94, 0.05) 11px);
+            background: linear-gradient(90deg, transparent, rgba(198, 167, 94, 0.08), transparent);
+            transition: left 0.6s ease;
         }
 
-        .map-icon {
-            font-size: 48px;
-            opacity: 0.3;
-            position: relative;
-            z-index: 1;
+        .venue-card:hover .venue-image-placeholder::before {
+            left: 100%;
+        }
+
+        .venue-card:hover .venue-image-placeholder {
+            background: rgba(29, 120, 116, 0.14);
+            border-bottom-color: rgba(198, 167, 94, 0.7);
+        }
+
+        .venue-image-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+            opacity: 0.5;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .venue-image-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: rgba(198, 167, 94, 0.7);
+            font-weight: 400;
+        }
+
+        .venue-image-filename {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 9px;
+            color: rgba(248, 249, 250, 0.35);
+            margin-top: 6px;
+            font-style: italic;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
         }
 
         .venue-info {
@@ -956,6 +994,71 @@
             }
         }
 
+        /* ── Custom Scrollbar ── */
+
+        /* Firefox */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: transparent transparent;
+        }
+
+        /* WebKit / Blink */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(11, 60, 93, 0.6);
+            border-left: 1px solid rgba(198, 167, 94, 0.15);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(
+                to bottom,
+                rgba(198, 167, 94, 0.3) 0%,
+                rgba(198, 167, 94, 0.6) 50%,
+                rgba(198, 167, 94, 0.3) 100%
+            );
+            border-radius: 6px;
+            border: 1px solid rgba(198, 167, 94, 0.4);
+            transition: background 0.3s ease;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(
+                to bottom,
+                rgba(198, 167, 94, 0.5) 0%,
+                rgba(198, 167, 94, 0.9) 50%,
+                rgba(198, 167, 94, 0.5) 100%
+            );
+        }
+
+        /* Scrollbar Ring Indicator */
+        #scroll-ring {
+            position: fixed;
+            right: 3px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translateY(-50%);
+            transition: top 0.05s linear;
+        }
+
+        #scroll-ring svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 4px rgba(198, 167, 94, 0.8))
+                    drop-shadow(0 0 8px rgba(198, 167, 94, 0.4));
+            animation: ringGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes ringGlow {
+            0%, 100% { filter: drop-shadow(0 0 3px rgba(198, 167, 94, 0.7)) drop-shadow(0 0 6px rgba(198, 167, 94, 0.3)); }
+            50%       { filter: drop-shadow(0 0 6px rgba(198, 167, 94, 1))   drop-shadow(0 0 12px rgba(198, 167, 94, 0.6)); }
+        }
+
         /* Accessibility */
         @media (prefers-reduced-motion: reduce) {
             * {
@@ -1132,15 +1235,20 @@
             <h2 class="section-title">Venues</h2>
             
             <div class="venue-container">
+
+                <!-- Venue 1: Ananda Thirumana Nilayam -->
                 <div class="venue-card">
-                    <div class="venue-map-placeholder">
-                        <div class="map-icon">📍</div>
+                    <!-- Venue Image Placeholder -->
+                    <div class="venue-image-placeholder">
+                        <div class="venue-image-icon">🏛️</div>
+                        <p class="venue-image-label">Venue Photo</p>
+                        <p class="venue-image-filename">images/venue-ananda.jpg</p>
                     </div>
                     <div class="venue-info">
                         <h3 class="venue-name">Ananda Thirumana Nilayam</h3>
                         <p class="venue-address">
                             Pondicherry<br>
-                            March 14-15, 2026
+                            March 14–15, 2026
                         </p>
                         <a href="https://maps.app.goo.gl/UMqNEGYWhYiF1awQ8" target="_blank" rel="noopener noreferrer" class="venue-link">
                             View on Map →
@@ -1148,9 +1256,13 @@
                     </div>
                 </div>
 
+                <!-- Venue 2: Shameera Marriage Hall -->
                 <div class="venue-card">
-                    <div class="venue-map-placeholder">
-                        <div class="map-icon">📍</div>
+                    <!-- Venue Image Placeholder -->
+                    <div class="venue-image-placeholder">
+                        <div class="venue-image-icon">🏛️</div>
+                        <p class="venue-image-label">Venue Photo</p>
+                        <p class="venue-image-filename">images/venue-shameera.jpg</p>
                     </div>
                     <div class="venue-info">
                         <h3 class="venue-name">Shameera Marriage Hall</h3>
@@ -1163,6 +1275,7 @@
                         </a>
                     </div>
                 </div>
+
             </div>
 
             <div class="wave-divider"></div>
@@ -1270,18 +1383,11 @@
             }
         });
 
-        // RSVP Handler
-        function handleRSVP() {
-            alert('Thank you for your RSVP! In a real application, this would open an RSVP form.');
-        }
-
         // Show confirmation popup
         function showConfirmation(type) {
             const popup = document.getElementById('confirmationPopup');
             popup.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevent background scroll
-            
-            // Add confetti effect (optional enhancement)
+            document.body.style.overflow = 'hidden';
             createConfetti();
         }
 
@@ -1289,7 +1395,7 @@
         function closePopup() {
             const popup = document.getElementById('confirmationPopup');
             popup.classList.remove('active');
-            document.body.style.overflow = 'auto'; // Re-enable scroll
+            document.body.style.overflow = 'auto';
         }
 
         // Close popup when clicking outside
@@ -1329,7 +1435,6 @@
                     
                     document.body.appendChild(confetti);
                     
-                    // Animate confetti falling
                     const duration = 2000 + Math.random() * 1000;
                     const drift = (Math.random() - 0.5) * 100;
                     
@@ -1379,13 +1484,11 @@
             heart.style.left = x + 'px';
             heart.style.top = y + 'px';
             
-            // Add slight random variation to position
             const randomX = (Math.random() - 0.5) * 40;
             heart.style.transform = `translateX(${randomX}px)`;
             
             document.body.appendChild(heart);
             
-            // Remove heart after animation completes
             setTimeout(() => {
                 heart.remove();
             }, 2000);
@@ -1396,7 +1499,6 @@
             const photoPlaceholders = document.querySelectorAll('.photo-placeholder');
             
             photoPlaceholders.forEach(placeholder => {
-                // Handle both click (desktop) and touch (mobile) events
                 placeholder.addEventListener('click', function(e) {
                     createFloatingHeart(e.clientX, e.clientY);
                 });
