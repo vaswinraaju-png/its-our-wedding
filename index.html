@@ -994,30 +994,40 @@
             }
         }
 
-        /* ── Custom Scrollbar ── */
-
-        /* Firefox — hide native, ring takes over */
-        html {
-            scrollbar-width: none;
-        }
-
-        /* WebKit / Blink — hide native scrollbar */
-        ::-webkit-scrollbar {
-            width: 0px;
-            background: transparent;
-        }
-
-        /* Fake scrollbar track drawn via the ring container's pseudo */
-        #scroll-track {
+        /* ── Scroll Progress Bar ── */
+        #scroll-progress-track {
             position: fixed;
-            right: 0;
             top: 0;
-            width: 6px;
-            height: 100vh;
-            background: rgba(11, 60, 93, 0.7);
-            border-left: 1px solid rgba(198, 167, 94, 0.2);
-            z-index: 9990;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(198, 167, 94, 0.15);
+            z-index: 99999;
             pointer-events: none;
+        }
+
+        #scroll-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #C6A75E, #F5E0A0, #C6A75E);
+            background-size: 200% 100%;
+            animation: goldShimmer 2s linear infinite;
+        }
+
+        @keyframes goldShimmer {
+            0%   { background-position: 100% 0; }
+            100% { background-position: -100% 0; }
+        }
+
+        #scroll-ring-emoji {
+            position: fixed;
+            top: -8px;
+            left: 0%;
+            font-size: 22px;
+            z-index: 99999;
+            pointer-events: none;
+            transform: translateX(-50%);
+            filter: drop-shadow(0 0 6px rgba(198, 167, 94, 0.9));
         }
 
         /* Scrollbar Ring Indicator */
@@ -1326,56 +1336,27 @@
 
     </div>
 
-    <!-- Scrollbar Track + Ring -->
-    <div id="scroll-track"></div>
-    <div id="scroll-ring">
-        <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-            <!-- Band -->
-            <ellipse cx="8" cy="8" rx="7" ry="7"
-                fill="none"
-                stroke="url(#ringGrad)" stroke-width="2"/>
-            <!-- Stone bezel -->
-            <ellipse cx="8" cy="8" rx="3.5" ry="3.5"
-                fill="url(#stoneGrad)"
-                stroke="#C6A75E" stroke-width="0.6"/>
-            <!-- Stone facets (shimmer lines) -->
-            <line x1="8" y1="4.5" x2="8" y2="11.5" stroke="rgba(255,255,255,0.25)" stroke-width="0.4"/>
-            <line x1="4.5" y1="8" x2="11.5" y2="8" stroke="rgba(255,255,255,0.25)" stroke-width="0.4"/>
-            <line x1="5.5" y1="5.5" x2="10.5" y2="10.5" stroke="rgba(255,255,255,0.15)" stroke-width="0.4"/>
-            <line x1="10.5" y1="5.5" x2="5.5" y2="10.5" stroke="rgba(255,255,255,0.15)" stroke-width="0.4"/>
-            <!-- Highlight -->
-            <ellipse cx="6.8" cy="6.8" rx="1" ry="0.7"
-                fill="rgba(255,255,255,0.5)" transform="rotate(-30 6.8 6.8)"/>
-            <defs>
-                <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%"   stop-color="#C6A75E"/>
-                    <stop offset="50%"  stop-color="#F5E0A0"/>
-                    <stop offset="100%" stop-color="#C6A75E"/>
-                </linearGradient>
-                <radialGradient id="stoneGrad" cx="40%" cy="35%" r="65%">
-                    <stop offset="0%"   stop-color="#a8edea"/>
-                    <stop offset="40%"  stop-color="#1D7874"/>
-                    <stop offset="100%" stop-color="#021818"/>
-                </radialGradient>
-            </defs>
-        </svg>
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress-track">
+        <div id="scroll-progress-fill"></div>
     </div>
+    <div id="scroll-ring-emoji">💍</div>
 
     <script>
-        // Scroll ring position tracker
+        // Scroll progress bar + ring emoji
         (function() {
-            const ring = document.getElementById('scroll-ring');
-            function updateRing() {
+            const fill = document.getElementById('scroll-progress-fill');
+            const ring = document.getElementById('scroll-ring-emoji');
+            function updateProgress() {
                 const scrollTop  = window.scrollY || document.documentElement.scrollTop;
                 const docHeight  = document.documentElement.scrollHeight - window.innerHeight;
-                const scrollFrac = docHeight > 0 ? scrollTop / docHeight : 0;
-                const padding    = 15; // half of ring height so it stays fully on screen
-                const y          = padding + scrollFrac * (window.innerHeight - padding * 2);
-                ring.style.top   = y + 'px';
+                const pct        = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+                fill.style.width = pct + '%';
+                ring.style.left  = pct + '%';
             }
-            window.addEventListener('scroll', updateRing, { passive: true });
-            window.addEventListener('resize', updateRing);
-            updateRing();
+            window.addEventListener('scroll', updateProgress, { passive: true });
+            window.addEventListener('resize', updateProgress);
+            updateProgress();
         })();
     </script>
 
