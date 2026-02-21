@@ -459,72 +459,6 @@
             box-shadow: 0 12px 40px rgba(198, 167, 94, 0.15);
         }
 
-        /* Venue Image Placeholder */
-        .venue-image-placeholder {
-            width: 100%;
-            height: 200px;
-            background: rgba(29, 120, 116, 0.08);
-            border-bottom: 1px dashed rgba(198, 167, 94, 0.4);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.4s ease;
-        }
-
-        .venue-image-placeholder::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(198, 167, 94, 0.08), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .venue-card:hover .venue-image-placeholder::before {
-            left: 100%;
-        }
-
-        .venue-card:hover .venue-image-placeholder {
-            background: rgba(29, 120, 116, 0.14);
-            border-bottom-color: rgba(198, 167, 94, 0.7);
-        }
-
-        .venue-image-icon {
-            font-size: 40px;
-            margin-bottom: 10px;
-            opacity: 0.5;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .venue-image-label {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 10px;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: rgba(198, 167, 94, 0.7);
-            font-weight: 400;
-        }
-
-        .venue-image-filename {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 9px;
-            color: rgba(248, 249, 250, 0.35);
-            margin-top: 6px;
-            font-style: italic;
-            letter-spacing: 0.5px;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
-        }
-
         .venue-info {
             padding: 24px;
         }
@@ -658,40 +592,40 @@
             left: 100%;
         }
 
-        /* Floating Heart Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        /* Floating Heart Animation - stays at tap position */
         .floating-heart {
             position: fixed;
-            font-size: 24px;
+            font-size: 28px;
             pointer-events: none;
             z-index: 9999;
-            animation: floatUpHeart 2s ease-out forwards;
+            transform: translate(-50%, -50%);
+            animation: heartBurst 1.2s ease-out forwards;
             user-select: none;
+            line-height: 1;
         }
 
-        @keyframes floatUpHeart {
+        @keyframes heartBurst {
             0% {
-                transform: translateY(0) scale(0.5) rotate(0deg);
+                transform: translate(-50%, -50%) scale(0.2);
                 opacity: 1;
             }
-            50% {
-                transform: translateY(-80px) scale(1.2) rotate(15deg);
+            40% {
+                transform: translate(-50%, -50%) scale(1.4);
                 opacity: 1;
+            }
+            70% {
+                transform: translate(-50%, -50%) scale(1.1);
+                opacity: 0.9;
             }
             100% {
-                transform: translateY(-150px) scale(0.8) rotate(30deg);
+                transform: translate(-50%, -50%) scale(0.8);
                 opacity: 0;
             }
-        }
-
-        /* Image upload instruction */
-        .photo-instruction {
-            text-align: center;
-            margin-top: 16px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 10px;
-            color: rgba(248, 249, 250, 0.5);
-            font-style: italic;
-            letter-spacing: 1px;
         }
 
         /* RSVP Section */
@@ -1000,7 +934,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 4px;
+            height: 5px;
             background: rgba(198, 167, 94, 0.15);
             z-index: 99999;
             pointer-events: none;
@@ -1019,38 +953,80 @@
             100% { background-position: -100% 0; }
         }
 
+        /* Ring emoji — clamped so it never clips off screen edges */
         #scroll-ring-emoji {
             position: fixed;
-            top: -8px;
-            left: 0%;
-            font-size: 22px;
+            top: 12px; /* sits below the 5px bar with a small gap */
+            font-size: 20px;
             z-index: 99999;
             pointer-events: none;
             transform: translateX(-50%);
             filter: drop-shadow(0 0 6px rgba(198, 167, 94, 0.9));
+            transition: left 0.05s linear;
         }
 
-        /* Scrollbar Ring Indicator */
-        #scroll-ring {
+        /* Music toggle button */
+        #music-toggle {
             position: fixed;
-            right: -6px;
-            top: 0;
-            width: 30px;
-            height: 30px;
+            bottom: 24px;
+            right: 20px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(11, 60, 93, 0.9);
+            border: 2px solid var(--champagne-gold);
+            color: var(--champagne-gold);
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 9998;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 20px rgba(198, 167, 94, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        #music-toggle:hover {
+            background: var(--champagne-gold);
+            color: var(--deep-navy);
+            transform: scale(1.1);
+        }
+
+        #music-toggle.playing {
+            animation: musicPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes musicPulse {
+            0%, 100% { box-shadow: 0 4px 20px rgba(198, 167, 94, 0.3); }
+            50% { box-shadow: 0 4px 30px rgba(198, 167, 94, 0.7), 0 0 0 6px rgba(198, 167, 94, 0.15); }
+        }
+
+        /* Autoplay nudge banner */
+        #music-nudge {
+            position: fixed;
+            bottom: 84px;
+            right: 16px;
+            background: rgba(11, 60, 93, 0.95);
+            border: 1px solid rgba(198, 167, 94, 0.5);
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            color: var(--champagne-gold);
+            z-index: 9997;
+            max-width: 180px;
+            text-align: center;
+            line-height: 1.5;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s ease;
             pointer-events: none;
-            z-index: 99999;
-            transform: translateY(-50%);
         }
 
-        #scroll-ring svg {
-            width: 100%;
-            height: 100%;
-            animation: ringGlow 2s ease-in-out infinite;
-        }
-
-        @keyframes ringGlow {
-            0%, 100% { filter: drop-shadow(0 0 5px rgba(198, 167, 94, 1)) drop-shadow(0 0 10px rgba(198, 167, 94, 0.6)); }
-            50%       { filter: drop-shadow(0 0 9px rgba(198, 167, 94, 1)) drop-shadow(0 0 18px rgba(198, 167, 94, 0.9)); }
+        #music-nudge.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* Accessibility */
@@ -1072,6 +1048,16 @@
     <!-- Background Effects -->
     <div class="water-bg"></div>
     <div class="shimmer-overlay"></div>
+
+    <!-- Background Music (using a royalty-free wedding instrumental) -->
+    <audio id="bg-music" loop preload="auto">
+        <!-- Using a public domain / royalty-free music URL -->
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Music toggle button -->
+    <button id="music-toggle" title="Toggle music" aria-label="Toggle background music">🎵</button>
+    <div id="music-nudge">Tap 🎵 to play wedding music 🎶</div>
 
     <!-- Main Container -->
     <div class="container">
@@ -1212,17 +1198,6 @@
             <div class="wave-divider"></div>
         </section>
 
-        <!-- Photo 3: After story -->
-        <section id="photo-3" style="min-height: auto; padding: 40px 24px;">
-            <div class="photo-gallery">
-                <div class="photo-placeholder single-photo">
-                    <span class="photo-icon">✨</span>
-                    <p class="photo-label">couple-memory.jpg</p>
-                </div>
-            </div>
-            <div class="wave-divider"></div>
-        </section>
-
         <!-- Venue -->
         <section id="venue">
             <p class="section-subtitle">Where We'll Celebrate</p>
@@ -1232,12 +1207,6 @@
 
                 <!-- Venue 1: Ananda Thirumana Nilayam -->
                 <div class="venue-card">
-                    <!-- Venue Image Placeholder -->
-                    <div class="venue-image-placeholder">
-                        <div class="venue-image-icon">🏛️</div>
-                        <p class="venue-image-label">Venue Photo</p>
-                        <p class="venue-image-filename">venue-ananda.jpg</p>
-                    </div>
                     <div class="venue-info">
                         <h3 class="venue-name">Ananda Thirumana Nilayam</h3>
                         <p class="venue-address">
@@ -1252,12 +1221,6 @@
 
                 <!-- Venue 2: Shameera Marriage Hall -->
                 <div class="venue-card">
-                    <!-- Venue Image Placeholder -->
-                    <div class="venue-image-placeholder">
-                        <div class="venue-image-icon">🏛️</div>
-                        <p class="venue-image-label">Venue Photo</p>
-                        <p class="venue-image-filename">venue-shameera.jpg</p>
-                    </div>
                     <div class="venue-info">
                         <h3 class="venue-name">Shameera Marriage Hall</h3>
                         <p class="venue-address">
@@ -1272,17 +1235,6 @@
 
             </div>
 
-            <div class="wave-divider"></div>
-        </section>
-
-        <!-- Photo 4: After venues -->
-        <section id="photo-4" style="min-height: auto; padding: 40px 24px;">
-            <div class="photo-gallery">
-                <div class="photo-placeholder single-photo">
-                    <span class="photo-icon">🌊</span>
-                    <p class="photo-label">couple-celebration.jpg</p>
-                </div>
-            </div>
             <div class="wave-divider"></div>
         </section>
 
@@ -1343,17 +1295,25 @@
     <div id="scroll-ring-emoji">💍</div>
 
     <script>
-        // Scroll progress bar + ring emoji
+        // ── Scroll progress bar + ring emoji (clamped to stay fully visible) ──
         (function() {
             const fill = document.getElementById('scroll-progress-fill');
             const ring = document.getElementById('scroll-ring-emoji');
+            const RING_HALF_W = 12; // approx half-width of the emoji in px
+
             function updateProgress() {
                 const scrollTop  = window.scrollY || document.documentElement.scrollTop;
                 const docHeight  = document.documentElement.scrollHeight - window.innerHeight;
                 const pct        = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
                 fill.style.width = pct + '%';
-                ring.style.left  = pct + '%';
+
+                // Clamp so the ring never clips off either edge
+                const trackW  = window.innerWidth;
+                const rawLeft = (pct / 100) * trackW;
+                const clampedLeft = Math.min(Math.max(rawLeft, RING_HALF_W), trackW - RING_HALF_W);
+                ring.style.left = clampedLeft + 'px';
             }
+
             window.addEventListener('scroll', updateProgress, { passive: true });
             window.addEventListener('resize', updateProgress);
             updateProgress();
@@ -1361,7 +1321,71 @@
     </script>
 
     <script>
-        // Intersection Observer for scroll animations
+        // ── Background Music ──
+        const audio      = document.getElementById('bg-music');
+        const musicBtn   = document.getElementById('music-toggle');
+        const musicNudge = document.getElementById('music-nudge');
+        let   isPlaying  = false;
+
+        function setPlaying(state) {
+            isPlaying = state;
+            musicBtn.textContent = isPlaying ? '🔇' : '🎵';
+            if (isPlaying) {
+                musicBtn.classList.add('playing');
+            } else {
+                musicBtn.classList.remove('playing');
+            }
+        }
+
+        // Try autoplay on load
+        window.addEventListener('load', () => {
+            audio.volume = 0.35;
+            audio.play().then(() => {
+                setPlaying(true);
+            }).catch(() => {
+                // Autoplay blocked — show nudge
+                setPlaying(false);
+                musicNudge.classList.add('show');
+                setTimeout(() => musicNudge.classList.remove('show'), 5000);
+            });
+        });
+
+        // First interaction fallback — many browsers allow play after user gesture
+        function tryAutoplayOnInteraction() {
+            if (!isPlaying) {
+                audio.play().then(() => {
+                    setPlaying(true);
+                    musicNudge.classList.remove('show');
+                }).catch(() => {});
+            }
+            document.removeEventListener('click', tryAutoplayOnInteraction);
+            document.removeEventListener('touchstart', tryAutoplayOnInteraction);
+        }
+        document.addEventListener('click', tryAutoplayOnInteraction);
+        document.addEventListener('touchstart', tryAutoplayOnInteraction);
+
+        musicBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // don't trigger the interaction fallback above too
+            if (isPlaying) {
+                audio.pause();
+                setPlaying(false);
+            } else {
+                audio.play().then(() => setPlaying(true)).catch(() => {});
+            }
+        });
+
+        // Pause when tab is hidden, resume when visible
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                if (isPlaying) audio.pause();
+            } else {
+                if (isPlaying) audio.play().catch(() => {});
+            }
+        });
+    </script>
+
+    <script>
+        // ── Intersection Observer for scroll animations ──
         const observerOptions = {
             threshold: 0.2,
             rootMargin: '0px 0px -50px 0px'
@@ -1375,15 +1399,8 @@
             });
         }, observerOptions);
 
-        // Observe all sections
-        document.querySelectorAll('section').forEach(section => {
-            observer.observe(section);
-        });
-
-        // Observe timeline items
-        document.querySelectorAll('.timeline-item').forEach(item => {
-            observer.observe(item);
-        });
+        document.querySelectorAll('section').forEach(section => observer.observe(section));
+        document.querySelectorAll('.timeline-item').forEach(item => observer.observe(item));
 
         // Parallax effect for background
         let ticking = false;
@@ -1392,16 +1409,14 @@
                 window.requestAnimationFrame(() => {
                     const scrolled = window.pageYOffset;
                     const waterBg = document.querySelector('.water-bg');
-                    if (waterBg) {
-                        waterBg.style.transform = `translateY(${scrolled * 0.3}px)`;
-                    }
+                    if (waterBg) waterBg.style.transform = `translateY(${scrolled * 0.3}px)`;
                     ticking = false;
                 });
                 ticking = true;
             }
         });
 
-        // Show confirmation popup
+        // ── RSVP Popup ──
         function showConfirmation(type) {
             const popup = document.getElementById('confirmationPopup');
             popup.classList.add('active');
@@ -1409,126 +1424,89 @@
             createConfetti();
         }
 
-        // Close popup
         function closePopup() {
             const popup = document.getElementById('confirmationPopup');
             popup.classList.remove('active');
             document.body.style.overflow = 'auto';
         }
 
-        // Close popup when clicking outside
         document.addEventListener('click', function(event) {
             const popup = document.getElementById('confirmationPopup');
-            if (event.target === popup) {
-                closePopup();
-            }
+            if (event.target === popup) closePopup();
         });
 
-        // Close popup on ESC key
         document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                closePopup();
-            }
+            if (event.key === 'Escape') closePopup();
         });
 
-        // Simple confetti effect
+        // ── Confetti ──
         function createConfetti() {
             const colors = ['#C6A75E', '#1D7874', '#F8F9FA'];
-            const confettiCount = 50;
-            
-            for (let i = 0; i < confettiCount; i++) {
+            for (let i = 0; i < 50; i++) {
                 setTimeout(() => {
-                    const confetti = document.createElement('div');
-                    confetti.style.position = 'fixed';
-                    confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.top = '-10px';
-                    confetti.style.width = '10px';
-                    confetti.style.height = '10px';
-                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.opacity = '0.8';
-                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-                    confetti.style.pointerEvents = 'none';
-                    confetti.style.zIndex = '10001';
-                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
-                    
-                    document.body.appendChild(confetti);
-                    
-                    const duration = 2000 + Math.random() * 1000;
-                    const drift = (Math.random() - 0.5) * 100;
-                    
-                    confetti.animate([
-                        { transform: `translateY(0) translateX(0) rotate(0deg)`, opacity: 1 },
-                        { transform: `translateY(100vh) translateX(${drift}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
-                    ], {
-                        duration: duration,
-                        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-                    });
-                    
-                    setTimeout(() => confetti.remove(), duration);
-                }, i * 30);
+                    const c = document.createElement('div');
+                    c.style.cssText = `
+                        position:fixed; left:${Math.random()*100}%; top:-10px;
+                        width:10px; height:10px; pointer-events:none; z-index:10001;
+                        background:${colors[Math.floor(Math.random()*colors.length)]};
+                        opacity:0.8; border-radius:${Math.random()>0.5?'50%':'0'};
+                        transform:rotate(${Math.random()*360}deg);
+                    `;
+                    document.body.appendChild(c);
+                    const dur = 2000 + Math.random()*1000;
+                    const drift = (Math.random()-0.5)*100;
+                    c.animate([
+                        { transform:`translateY(0) translateX(0) rotate(0deg)`, opacity:1 },
+                        { transform:`translateY(100vh) translateX(${drift}px) rotate(${Math.random()*720}deg)`, opacity:0 }
+                    ], { duration:dur, easing:'cubic-bezier(0.25,0.46,0.45,0.94)' });
+                    setTimeout(()=>c.remove(), dur);
+                }, i*30);
             }
         }
 
-        // Smooth scroll for internal links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+        // ── Heart on tap/click — stays exactly where you tap ──
+        function createHeart(x, y) {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.textContent = '♥️';
+            heart.style.left = x + 'px';
+            heart.style.top  = y + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 1200);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.photo-placeholder').forEach(placeholder => {
+                placeholder.addEventListener('click', function(e) {
+                    createHeart(e.clientX, e.clientY);
+                });
+                placeholder.addEventListener('touchend', function(e) {
+                    if (e.changedTouches.length > 0) {
+                        const t = e.changedTouches[0];
+                        createHeart(t.clientX, t.clientY);
+                    }
+                });
             });
         });
 
-        // Add visible class to opening screen after load
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior:'smooth', block:'start' });
+            });
+        });
+
+        // Opening screen visible on load
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.querySelector('.opening-screen').classList.add('visible');
             }, 100);
         });
 
-        // Prevent horizontal scroll
         document.body.style.overflowX = 'hidden';
         document.documentElement.style.overflowX = 'hidden';
-
-        // Floating hearts on photo click
-        function createFloatingHeart(x, y) {
-            const heart = document.createElement('div');
-            heart.className = 'floating-heart';
-            heart.innerHTML = '❤️';
-            heart.style.left = x + 'px';
-            heart.style.top = y + 'px';
-            
-            const randomX = (Math.random() - 0.5) * 40;
-            heart.style.transform = `translateX(${randomX}px)`;
-            
-            document.body.appendChild(heart);
-            
-            setTimeout(() => {
-                heart.remove();
-            }, 2000);
-        }
-
-        // Add click/touch event listeners to all photo placeholders
-        document.addEventListener('DOMContentLoaded', function() {
-            const photoPlaceholders = document.querySelectorAll('.photo-placeholder');
-            
-            photoPlaceholders.forEach(placeholder => {
-                placeholder.addEventListener('click', function(e) {
-                    createFloatingHeart(e.clientX, e.clientY);
-                });
-                
-                placeholder.addEventListener('touchstart', function(e) {
-                    if (e.touches.length > 0) {
-                        const touch = e.touches[0];
-                        createFloatingHeart(touch.clientX, touch.clientY);
-                    }
-                });
-            });
-        });
     </script>
 </body>
 </html>
